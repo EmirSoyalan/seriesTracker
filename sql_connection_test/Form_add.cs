@@ -120,6 +120,7 @@ namespace sql_connection_test
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            int x;
             // Color adjustment
             con.Open();
             SqlCommand cmd_set = new SqlCommand("SELECT * FROM settings WHERE user_id = '" + frm_m.user_id + "'", con);
