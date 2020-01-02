@@ -1,0 +1,108 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace sql_connection_test
+{
+    public partial class Form_help : Form
+    {
+        public Form_help()
+        {
+            InitializeComponent();
+        }
+        int x = 1;
+        SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=alist_db;Integrated Security=True");
+        Form_main frm = new Form_main();
+        private void Form_help_Load(object sender, EventArgs e)
+        {
+            con.Open();
+            SqlCommand cmd_set = new SqlCommand("SELECT * FROM settings WHERE user_id = '" + frm.user_id + "'", con);
+            SqlDataReader settingReader = cmd_set.ExecuteReader();
+            while (settingReader.Read())
+            {
+                if (settingReader["using_pre"].ToString().Trim() == "0")
+                {
+                    BackColor = Color.FromArgb(Convert.ToInt32(settingReader["bg_color"]));
+                }
+                else
+                {
+                    Color bg_color;
+                    switch (settingReader["bg_theme"].ToString().Trim())
+                    {
+                        case "Dark":
+                            bg_color = SystemColors.WindowFrame;
+                            break;
+                        case "Light":
+                            bg_color = Color.LightGray;
+                            break;
+                        default:
+                            bg_color = SystemColors.Control;
+                            break;
+                    }
+                    BackColor = bg_color;
+                }
+            }
+            con.Close();
+            pictureBox1.ImageLocation = @".\\help\\"+x+".png";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            x++;
+            if (x < 7)
+            {
+                pictureBox1.ImageLocation = @".\\help\\" + x + ".png";
+            }
+            else
+            {
+                x = 6;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            x--;
+            if(x > 0)
+            {
+                pictureBox1.ImageLocation = @".\\help\\" + x + ".png";
+            }
+            else
+            {
+                x = 1;
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            x++;
+            if (x < 7)
+            {
+                pictureBox1.ImageLocation = @".\\help\\" + x + ".png";
+            }
+            else
+            {
+                x = 6;
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            x--;
+            if (x > 0)
+            {
+                pictureBox1.ImageLocation = @".\\help\\" + x + ".png";
+            }
+            else
+            {
+                x = 1;
+            }
+        }
+    }
+}
